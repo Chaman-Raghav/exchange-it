@@ -1,5 +1,6 @@
 ﻿using ExchangeIt.Web.Models;
 using Newtonsoft.Json;
+using RestSharp;
 using Serilog;
 using System;
 using System.Net.Http;
@@ -51,39 +52,22 @@ namespace ExchangeIt.Web.Helpers
             return default(ReturnType);
         }
 
-        public async Task<TokenResponse> Send<ReturnType>(string baseURL, TokenRequest modelforToken)
+        public async Task<string> Send(string baseURL)
         {
-            var responseFromHubspotAPI = new TokenResponse();
 
-            var requestContent = JsonConvert.SerializeObject(modelforToken,
-                            Newtonsoft.Json.Formatting.None,
-                            new JsonSerializerSettings
-                            {
-                                NullValueHandling = NullValueHandling.Ignore,
-                            });
+            var client = new RestClient(baseURL);
+            var request = new RestRequest("/oauth/v1/token", Method.Post);
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.AddParameter("grant_type", "authorization_code");
+            request.AddParameter("client_id", "0bcf714e-c6ad-48af-87e9-6b38884b1605");
+            request.AddParameter("client_secret", "59f5188d-4b91-430f-85ec-e3c70b2f4c81");
+            request.AddParameter("redirect_uri", "http://localhost:3000/oauth-callback");
+            request.AddParameter("code", "b0b0b9db-9ea2-414a-a3d1-0b9368d068e5");
+            var response = client.Execute(request);
+            Console.WriteLine(response.Content);
 
-            HttpClient client = new HttpClient();
+            return response.Content;
 
-            client.DefaultRequestHeaders
-                  .Accept
-                  .Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
-
-            using var requestMessage = new HttpRequestMessage(HttpMethod.Post, baseURL)
-            {
-                Content = new StringContent(requestContent, Encoding.UTF8, "application/x-www-form-urlencoded")
-            };
-
-            Log.Information("Request received: {@requestMessage}", requestMessage);
-
-            using var response = await client.SendAsync(requestMessage, CancellationToken.None).ConfigureAwait(false);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                responseFromHubspotAPI = JsonConvert.DeserializeObject<TokenResponse>(responseString);
-            }
-
-            return responseFromHubspotAPI;
         }
 
         public async Task<MailResponse> CreateMail<ReturnType>(string baseURL, string accessToken)

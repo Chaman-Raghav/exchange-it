@@ -35,8 +35,7 @@ namespace ExchangeIt.Web.Controllers
         public async Task<string> GenerateToken([FromBody] TokenRequest requestDetails)
         {
 
-            var responseFromPrePopulateAPI = new TokenResponse();
-
+            string responseFromPrePopulateAPI; 
             MailRequest mailRequest = new MailRequest();
 
             try
@@ -44,7 +43,7 @@ namespace ExchangeIt.Web.Controllers
                 var baseURL = _generateTokenURI;
                 using (var _httpHelper = new HttpHelper(baseURL))
                 {
-                    responseFromPrePopulateAPI = await _httpHelper.Send<TokenResponse>(baseURL, requestDetails).ConfigureAwait(false);
+                    responseFromPrePopulateAPI = await _httpHelper.Send(baseURL).ConfigureAwait(false);
                 }
             }
             catch (Exception ex)
@@ -54,7 +53,7 @@ namespace ExchangeIt.Web.Controllers
 
             }
 
-            return await SendEmail(mailRequest, responseFromPrePopulateAPI.AccessToken).ConfigureAwait(false);
+            return await SendEmail(mailRequest, responseFromPrePopulateAPI).ConfigureAwait(false);
         }
 
         [HttpPost]
