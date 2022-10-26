@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>ExchangeIt</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ExchangeIt.Application\ExchangeIt.Application.csproj" />
+    <ProjectReference Include="..\ExchangeIt.Domain.Tests\ExchangeIt.Domain.Tests.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetOpenAuth.OAuth.ServiceProvider" Version="4.3.4.13329" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+    <PackageReference Include="Twilio" Version="5.81.0" />
+  </ItemGroup>
+
+</Project>
