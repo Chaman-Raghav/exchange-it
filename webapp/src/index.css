@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .form-control {
+        @apply w-full text-base font-normal rounded-lg border h-10 py-2 px-3 outline-none border-gray-300 focus:border-primary-200 focus:ring-2 focus:ring-primary-200/50
+    }
+    .btn {
+        @apply rounded-lg  leading-6 text-base font-medium py-2 px-4 h-11 
+    }
+    .btn-primary {
+        @apply text-white bg-primary-700 hover:bg-primary-600 active:bg-primary-700
+    }
+    .btn-primary-light {
+        @apply bg-primary-200 hover:bg-primary-600 active:bg-primary-200
+    }
+    .btn-primary-extalight {
+        @apply text-primary-700 bg-primary-200/10 hover:bg-primary-200/30 active:bg-primary-200/10
+    }
+    .btn-light {
+        @apply bg-white ring-1 ring-gray-300 text-gray-700
+    }
+}
+
+@layer base{
+    [x-cloak] { 
+        @apply hidden
+    }
+}
+
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+		sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+		monospace;
+}
