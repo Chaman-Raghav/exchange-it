@@ -16,7 +16,6 @@ namespace Api
                 throw new Exception("You must provide a dbContext.");
             }
 
-            // Console.WriteLine(JsonSerializer.Serialize(dbContext));
             var isDirty = false;
 
             dbContext.Database.Migrate();
